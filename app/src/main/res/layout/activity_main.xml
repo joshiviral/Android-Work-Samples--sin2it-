@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:gravity="center"
+    android:gravity="center"
     android:padding="16dp"
     tools:context=".MainActivity">
 
@@ -15,35 +15,36 @@ android:gravity="center"
         android:text="UserName:" />
 
     <EditText
-    android:id="@+id/etx_username"
+        android:id="@+id/etx_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/txt_username" />
+
     <TextView
         android:id="@+id/txt_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
+        android:layout_below="@id/txt_username"
         android:layout_marginTop="50dp"
-
-        android:layout_below="@id/txt_username"/>
+        android:text="Password:" />
 
     <EditText
         android:id="@+id/etx_password"
-        android:layout_alignBaseline="@id/txt_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/txt_password"
-        android:layout_below="@id/etx_username"/>
+        android:layout_below="@id/etx_username"
+        android:layout_alignBaseline="@id/txt_password"
+        android:layout_toRightOf="@id/txt_password" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="submit"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_marginTop="60dp"
         android:layout_below="@id/txt_password"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:paddingLeft="50dp"
+        android:paddingTop="10dp"
+        android:paddingRight="50dp"
+        android:paddingBottom="10dp"
+        android:text="submit" />
 </RelativeLayout>
