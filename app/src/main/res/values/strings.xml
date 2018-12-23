@@ -2,6 +2,5 @@
     <string name="app_name">Stepin2It</string>
     <string name="user_name">admin</string>
     <string name="password">admin</string>
-    <string name="login_preference">com.example.viraljoshi.stepin2it_login_preference</string>
-    <string name="login_status_preference">com.example.viraljoshi.stepin2it_login_status_preference</string>
+
 </resources>
