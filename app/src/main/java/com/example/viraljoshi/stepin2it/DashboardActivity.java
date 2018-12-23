@@ -14,7 +14,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 //if the user has already logged in and terminates the activity, and if the user starts the app, it will retain users data and welcome profile will be displayed
-        preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
+        preferenceConfig = SharedPreferenceConfig.getInstance(getApplicationContext());
     }
 
     //when the logout button is pressed, user will be logged out and the user will be redirected to login activity

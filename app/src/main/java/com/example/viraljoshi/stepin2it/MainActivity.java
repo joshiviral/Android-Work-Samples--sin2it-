@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 //Sharedpreference class initialization
-        sharedpreferenceConfig = new SharedPreferenceConfig(getApplicationContext());
+        sharedpreferenceConfig= SharedPreferenceConfig.getInstance(getApplicationContext());
 //View tags initialization from layout file
 
 //this method is used to read the users status whether it is logged in or not and if logged in it will show the welcome profile
