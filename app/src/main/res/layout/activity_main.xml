@@ -43,10 +43,10 @@
         android:layout_below="@id/txt_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
+        android:onClick="loginUser"
         android:paddingLeft="50dp"
         android:paddingTop="10dp"
         android:paddingRight="50dp"
         android:paddingBottom="10dp"
-        android:onClick="loginUser"
         android:text="submit" />
 </RelativeLayout>
