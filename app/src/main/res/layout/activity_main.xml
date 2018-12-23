@@ -37,13 +37,12 @@
         android:layout_toRightOf="@id/txt_password" />
 
     <Button
-        android:id="@+id/loginUser"
+        android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/txt_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:onClick="loginUser"
         android:paddingLeft="50dp"
         android:paddingTop="10dp"
         android:paddingRight="50dp"

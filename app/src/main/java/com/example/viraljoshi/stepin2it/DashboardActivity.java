@@ -5,14 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class LoginActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity {
 
     private SharedPreferenceConfig preferenceConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_dashboard);
 //if the user has already logged in and terminates the activity, and if the user starts the app, it will retain users data and welcome profile will be displayed
         preferenceConfig = new SharedPreferenceConfig(getApplicationContext());
     }
