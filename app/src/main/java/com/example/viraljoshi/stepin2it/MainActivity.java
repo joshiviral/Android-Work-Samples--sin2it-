@@ -1,10 +1,12 @@
 package com.example.viraljoshi.stepin2it;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -20,8 +22,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.etx_password)
     EditText etxPassword;
 
-    public static final String USERNAME = "";
-    public static final String Password = "";
+    @BindView(R.id.pb_login)
+    ProgressBar progressBar;
+
+
 
 
     @Override
@@ -45,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     //this method checks from the string file whether the etxUsername and etxPassword are correct or not
     @OnClick(R.id.btn_login)
     void submit() {
-        //takes input from the user in the form of srting
+      /*  //takes input from the user in the form of srting
         String user_name = etxUsername.getText().toString();
         String user_password = etxPassword.getText().toString();
 
@@ -59,6 +63,71 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "LoginFailed..", Toast.LENGTH_SHORT).show();
             etxUsername.setText("");
             etxPassword.setText("");
+        }
+        */
+
+      new LoginAsynctask().execute(etxUsername.getText().toString(),etxPassword.getText().toString());
+    }
+
+    class LoginAsynctask extends AsyncTask<String, Integer, Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            String username = params[0];
+            String password = params[1];
+            for (int i = 0; i < 5; i++) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                publishProgress(i);
+
+            }
+
+            if (username.equals(getResources().getString(R.string.user_name)) && password.equals(getResources().getString(R.string.password))) {
+               return true;
+                //is etxUsername and etxPassword is wrong, login is failed...
+            } else {
+
+                return false;
+            }
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            Toast.makeText(getApplicationContext(),
+                    "progress =" + values[0],
+                    Toast.LENGTH_SHORT).show();
+
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            progressBar.setVisibility(View.GONE);
+
+            if (result) {
+                startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+                sharedpreferenceConfig.writeLoginStatus(true);
+                finish();
+                //is etxUsername and etxPassword is wrong, login is failed...
+            } else {
+                Toast.makeText(MainActivity.this, "LoginFailed..", Toast.LENGTH_SHORT).show();
+                etxUsername.setText("");
+                etxPassword.setText("");
+            }
         }
     }
 }
