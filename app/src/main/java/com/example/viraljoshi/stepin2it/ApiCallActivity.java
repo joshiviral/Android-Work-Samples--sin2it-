@@ -1,12 +1,14 @@
 package com.example.viraljoshi.stepin2it;
 
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -17,47 +19,77 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class DashboardActivity extends AppCompatActivity {
+public class ApiCallActivity extends AppCompatActivity {
 
-    private SharedPreferenceConfig preferenceConfig;
-    @BindView(R.id.btn_apiCall)
-    Button btn_apicall;
+    @BindView(R.id.txt_apiCall)
+    TextView txt_apicall;
+
+    @BindView(R.id.btn_comments)
+    Button btn_comments;
+    @BindView(R.id.btn_albums)
+    Button btn_albums;
+    @BindView(R.id.btn_photos)
+    Button btn_photos;
+    @BindView(R.id.btn_users)
+    Button btn_users;
+    @BindView(R.id.btn_todo)
+    Button btn_todo;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_apicall);
         ButterKnife.bind(this);
-        btn_apicall.setOnClickListener(new View.OnClickListener() {
+        txt_apicall.setMovementMethod(new ScrollingMovementMethod());
+
+        btn_comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(DashboardActivity.this, ApiCallActivity.class);
-                DashboardActivity.this.startActivity(myIntent);
+                new ApiAsyncTask().execute("https://jsonplaceholder.typicode.com/comments");
+
             }
         });
 
-//if the user has already logged in and terminates the activity, and if the user starts the app, it will retain users data and welcome profile will be displayed
-        preferenceConfig = SharedPreferenceConfig.getInstance(getApplicationContext());
-       // new HttpPostAsyncTask().execute("https://jsonplaceholder.typicode.com/posts");
+        btn_albums.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ApiAsyncTask().execute("https://jsonplaceholder.typicode.com/albums");
+            }
+        });
+
+        btn_photos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ApiAsyncTask().execute("https://jsonplaceholder.typicode.com/photos");
+            }
+        });
+
+        btn_users.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ApiAsyncTask().execute("https://jsonplaceholder.typicode.com/users");
+            }
+        });
+        btn_todo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ApiAsyncTask().execute("https://jsonplaceholder.typicode.com/todos");
+            }
+        });
+
+
+
     }
 
-    //when the logout button is pressed, user will be logged out and the user will be redirected to login activity
-    public void userlogout(View view) {
-        preferenceConfig.writeLoginStatus(false);
-        Intent intent = new Intent(DashboardActivity.this, ApiCallActivity.class);
-        startActivity(intent);
-    }
-
-    public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
+    public class ApiAsyncTask extends AsyncTask<String, Void, String> {
         JSONObject postData;
-        private static final String TAG="Asynctask";
+        private static final String TAG = "Asynctask";
 
         @Override
         protected String doInBackground(String... params) {
@@ -91,10 +123,8 @@ public class DashboardActivity extends AppCompatActivity {
                 if (statusCode == 200) {
 
                     InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-
                     String response = convertInputStreamToString(inputStream);
                     return response;
-
 
 
                     // From here you can convert the string to JSON with whatever JSON parser you like to use
@@ -129,8 +159,7 @@ public class DashboardActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
-            Log.d(TAG,""+s);
+            txt_apicall.setText(s);
 
         }
     }

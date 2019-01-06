@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_posts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="POSTS" />
+    <Button
+        android:id="@+id/btn_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_posts"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="COMMENTS" />
+
+    <Button
+        android:id="@+id/btn_albums"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_comments"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:onClick="userlogout"
+        android:text="ALBUMS" />
+
+    <Button
+        android:id="@+id/btn_photos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_albums"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:onClick="userlogout"
+        android:text="PHOTOS" />
+
+    <Button
+        android:id="@+id/btn_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_photos"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="TODO" />
+
+    <Button
+        android:id="@+id/btn_users"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_todo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="USERS" />
+
+    <TextView
+        android:id="@+id/txt_apiCall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_users"
+        android:scrollbars="vertical"
+        android:text="Log:" />
+
+</RelativeLayout>

@@ -32,6 +32,7 @@
         android:id="@+id/etx_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:layout_below="@id/etx_username"
         android:layout_alignBaseline="@id/txt_password"
         android:layout_toRightOf="@id/txt_password" />
@@ -48,6 +49,11 @@
         android:paddingRight="50dp"
         android:paddingBottom="10dp"
         android:text="submit" />
+    <TextView
+        android:id="@+id/txt_validation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
     <ProgressBar
         android:id="@+id/pb_login"

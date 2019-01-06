@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,11 +25,10 @@ public class MainActivity extends AppCompatActivity {
     EditText etxUsername;
     @BindView(R.id.etx_password)
     EditText etxPassword;
-
     @BindView(R.id.pb_login)
     ProgressBar progressBar;
-
-
+    @BindView(R.id.txt_validation)
+    TextView txtValidation;
 
 
     @Override
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 //Sharedpreference class initialization
-        sharedpreferenceConfig= SharedPreferenceConfig.getInstance(getApplicationContext());
+        sharedpreferenceConfig = SharedPreferenceConfig.getInstance(getApplicationContext());
 //View tags initialization from layout file
 
 //this method is used to read the users status whether it is logged in or not and if logged in it will show the welcome profile
@@ -46,10 +49,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private boolean isValidEmailId() {
+        String email = etxUsername.getText().toString().trim();
+        if (email.isEmpty()) {
+            etxUsername.setError("Username Cannot be empty");
+            return false;
+        } else if (Patterns.EMAIL_ADDRESS.matcher((CharSequence) etxUsername).matches()) {
+            etxUsername.setError("Please Enter a valid email address");
+            return false;
+        } else {
+            etxUsername.setError(null);
+            return true;
+        }
+
+    }
+
+
     //this method checks from the string file whether the etxUsername and etxPassword are correct or not
     @OnClick(R.id.btn_login)
     void submit() {
-      /*  //takes input from the user in the form of srting
+       //takes input from the user in the form of srting
         String user_name = etxUsername.getText().toString();
         String user_password = etxPassword.getText().toString();
 
@@ -64,12 +84,13 @@ public class MainActivity extends AppCompatActivity {
             etxUsername.setText("");
             etxPassword.setText("");
         }
-        */
 
-      new LoginAsynctask().execute(etxUsername.getText().toString(),etxPassword.getText().toString());
+
+
+        // new LoginAsynctask().execute(etxUsername.getText().toString(), etxPassword.getText().toString());
     }
 
-    class LoginAsynctask extends AsyncTask<String, Integer, Boolean> {
+   /* class LoginAsynctask extends AsyncTask<String, Integer, Boolean> {
 
         @Override
         protected void onPreExecute() {
@@ -94,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (username.equals(getResources().getString(R.string.user_name)) && password.equals(getResources().getString(R.string.password))) {
-               return true;
+                return true;
                 //is etxUsername and etxPassword is wrong, login is failed...
             } else {
 
@@ -129,5 +150,9 @@ public class MainActivity extends AppCompatActivity {
                 etxPassword.setText("");
             }
         }
-    }
+
+
+    }*/
+
+
 }

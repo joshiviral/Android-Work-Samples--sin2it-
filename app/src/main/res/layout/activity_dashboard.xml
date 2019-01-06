@@ -21,4 +21,14 @@
         android:onClick="userlogout"
         android:text="Logout" />
 
+    <Button
+        android:id="@+id/btn_apiCall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_logout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:onClick="userlogout"
+        android:text="Api Call Navigation" />
+
 </RelativeLayout>

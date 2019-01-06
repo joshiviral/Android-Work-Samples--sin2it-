@@ -13,8 +13,7 @@ public class SharedPreferenceConfig {
     public static final String PREF_NAME = "stepin2it_preference";
     public static final String LOGIN_STATUS = "login_status";
 
-    private SharedPreferenceConfig()
-    {
+    private SharedPreferenceConfig() {
     }
 
     public static SharedPreferenceConfig getInstance(Context context) {
@@ -28,7 +27,6 @@ public class SharedPreferenceConfig {
         return instance;
     }
 
-
     //SharedPreference Initialization
 
     //This method will store the users data into the sharedpreference which will return boolean value and writes into memory in the form of sharedpreference
@@ -37,6 +35,7 @@ public class SharedPreferenceConfig {
         //editor is form of memory used to store data in the form of sharedpreference
         sEditor.putBoolean(LOGIN_STATUS, status);
         sEditor.commit();
+
     }
 
     //if the user has already logged in and terminates the activity, and if the user starts the app, it will retain users data and welcome profile will be displayed
