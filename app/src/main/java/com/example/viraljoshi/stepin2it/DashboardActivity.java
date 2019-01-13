@@ -9,6 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+
+import com.example.viraljoshi.stepin2it.api.APIInterface;
+import com.example.viraljoshi.stepin2it.api.ApiClient;
+import com.example.viraljoshi.stepin2it.model.Product;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,9 +28,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import timber.log.Timber;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -34,12 +43,17 @@ public class DashboardActivity extends AppCompatActivity {
     @BindView(R.id.btn_apiCall)
     Button btn_apicall;
 
+    APIInterface apiInterface;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
+        apiInterface = ApiClient.getClient().create(APIInterface.class);
+        getProducts();
+
         btn_apicall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,8 +64,40 @@ public class DashboardActivity extends AppCompatActivity {
 
 //if the user has already logged in and terminates the activity, and if the user starts the app, it will retain users data and welcome profile will be displayed
         preferenceConfig = SharedPreferenceConfig.getInstance(getApplicationContext());
-        new HttpPostAsyncTask().execute("http://my-json-server.typicode.com/joshiviral/StepIn2ItDemo/productData");
+        //  new HttpPostAsyncTask().execute("http://my-json-server.typicode.com/joshiviral/StepIn2ItDemo/productData");
 
+    }
+
+    private void getProducts() {
+        Call<ArrayList<Product>> call = apiInterface.getProducts();
+        call.enqueue(new Callback<ArrayList<Product>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                ArrayList<Product> productArrayList = response.body();
+                for (Product product : productArrayList) {
+
+                    Timber.i("Product=" + product.getProductId());
+                    Timber.i("Product=" + product.getName());
+                    Timber.i("Product=" + product.getWeight());
+                    Timber.i("Product=" + product.getImages());
+                    Timber.i("Product=" + product.getPhone());
+                    Timber.i("Product=" + product.getPrice());
+                    Timber.i("Product=" + product.getWeb());
+                    Timber.i("Product=" + product.getTags());
+                    Timber.i("Product=" + product.getDimensions().getLength());
+                    Timber.i("Product=" + product.getDimensions().getHeight());
+                    Timber.i("Product=" + product.getDimensions().getWidth());
+                    Timber.i("Product=" + product.getWeb());
+                    Timber.i("Product=" + product.getWarehouseLocation().getLatitude());
+                    Timber.i("Product=" + product.getWarehouseLocation().getLongitude());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+
+            }
+        });
     }
 
     //when the logout button is pressed, user will be logged out and the user will be redirected to login activity
@@ -61,7 +107,7 @@ public class DashboardActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
+  /*  public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
         JSONObject postData;
         private static final String TAG = "Asynctask";
 
@@ -212,5 +258,5 @@ public class DashboardActivity extends AppCompatActivity {
             Log.d(TAG, "" + s);
 
         }
-    }
+    } */
 }
