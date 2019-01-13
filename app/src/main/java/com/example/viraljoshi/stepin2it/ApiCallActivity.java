@@ -2,12 +2,14 @@ package com.example.viraljoshi.stepin2it;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -39,7 +41,8 @@ public class ApiCallActivity extends AppCompatActivity {
     Button btn_users;
     @BindView(R.id.btn_todo)
     Button btn_todo;
-
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class ApiCallActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new ApiAsyncTask().execute("https://jsonplaceholder.typicode.com/comments");
+
 
             }
         });
@@ -84,12 +88,12 @@ public class ApiCallActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     public class ApiAsyncTask extends AsyncTask<String, Void, String> {
         JSONObject postData;
         private static final String TAG = "Asynctask";
+
 
         @Override
         protected String doInBackground(String... params) {
@@ -139,6 +143,8 @@ public class ApiCallActivity extends AppCompatActivity {
                 Log.d("", e.getLocalizedMessage());
             }
             return null;
+
+
         }
 
         private String convertInputStreamToString(InputStream inputStream) throws IOException {
@@ -150,17 +156,17 @@ public class ApiCallActivity extends AppCompatActivity {
             return total.toString();
         }
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            progressBar.setVisibility(View.GONE);
             txt_apicall.setText(s);
-
         }
     }
 }

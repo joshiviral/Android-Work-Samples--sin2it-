@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -23,6 +26,7 @@ import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -35,6 +39,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
+        Timber.plant(new Timber.DebugTree());
         btn_apicall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +50,8 @@ public class DashboardActivity extends AppCompatActivity {
 
 //if the user has already logged in and terminates the activity, and if the user starts the app, it will retain users data and welcome profile will be displayed
         preferenceConfig = SharedPreferenceConfig.getInstance(getApplicationContext());
-       // new HttpPostAsyncTask().execute("https://jsonplaceholder.typicode.com/posts");
+        new HttpPostAsyncTask().execute("http://my-json-server.typicode.com/joshiviral/StepIn2ItDemo/productData");
+
     }
 
     //when the logout button is pressed, user will be logged out and the user will be redirected to login activity
@@ -57,7 +63,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     public class HttpPostAsyncTask extends AsyncTask<String, Void, String> {
         JSONObject postData;
-        private static final String TAG="Asynctask";
+        private static final String TAG = "Asynctask";
 
         @Override
         protected String doInBackground(String... params) {
@@ -96,7 +102,6 @@ public class DashboardActivity extends AppCompatActivity {
                     return response;
 
 
-
                     // From here you can convert the string to JSON with whatever JSON parser you like to use
                     // After converting the string to JSON, I call my custom callback. You can follow this process too, or you can implement the onPostExecute(Result) method
                 } else {
@@ -130,7 +135,47 @@ public class DashboardActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            Log.d(TAG,""+s);
+            try {
+                JSONArray rootjsonArray = new JSONArray(s);
+                for (int i = 0; i < rootjsonArray.length(); i++) {
+
+                    JSONObject productjsonObject = rootjsonArray.getJSONObject(i);
+                    String productname = productjsonObject.getString("productId");
+                    Timber.i("Product=" + i);
+                    String weight = productjsonObject.getString("weight");
+                    Timber.i("Weight=" + weight);
+                    JSONArray images = productjsonObject.getJSONArray("images");
+                    Timber.i("Images=" + images);
+                    String phone = productjsonObject.getString("phone");
+                    Timber.i("Phone=" + phone);
+                    String web = productjsonObject.getString("web");
+                    Timber.i("Web=" + web);
+                    double price = productjsonObject.getDouble("price");
+                    Timber.i("Price=" + price);
+                    JSONArray tags = productjsonObject.getJSONArray("tags");
+                    Timber.i("Tags=" + tags);
+
+                    JSONObject dimensionsjObject = productjsonObject.getJSONObject("dimensions");
+                    double length = dimensionsjObject.getDouble("length");
+                    Timber.i("Lenght=" + length);
+                    double widthObj = dimensionsjObject.getDouble("width");
+                    Timber.i("Width=" + widthObj);
+                    double height = dimensionsjObject.getDouble("height");
+                    Timber.i("Height=" + height);
+
+                    JSONObject warehouseLocationObj = productjsonObject.getJSONObject("warehouseLocation");
+                    double latitude = warehouseLocationObj.getDouble("latitude");
+                    Timber.i("Latitude=" + latitude);
+                    double longitude = warehouseLocationObj.getDouble("longitude");
+                    Timber.i("Longitude=" + longitude);
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d(TAG, "" + s);
 
         }
     }
