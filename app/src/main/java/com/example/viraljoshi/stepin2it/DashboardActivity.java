@@ -140,8 +140,11 @@ public class DashboardActivity extends AppCompatActivity {
                 for (int i = 0; i < rootjsonArray.length(); i++) {
 
                     JSONObject productjsonObject = rootjsonArray.getJSONObject(i);
-                    String productname = productjsonObject.getString("productId");
-                    Timber.i("Product=" + i);
+                    String productId = productjsonObject.getString("productId");
+
+
+                    String productname = productjsonObject.getString("name");
+
                     String weight = productjsonObject.getString("weight");
                     Timber.i("Weight=" + weight);
                     JSONArray images = productjsonObject.getJSONArray("images");
@@ -168,6 +171,37 @@ public class DashboardActivity extends AppCompatActivity {
                     Timber.i("Latitude=" + latitude);
                     double longitude = warehouseLocationObj.getDouble("longitude");
                     Timber.i("Longitude=" + longitude);
+
+                    Product product = new Product();
+                    product.setProductid(productId);
+                    product.setProductname(productname);
+                    product.setWeight(weight);
+                    product.setImages(images);
+                    product.setPhone(phone);
+                    product.setPrice(price);
+                    product.setWeb(web);
+                    product.setTags(tags);
+                    product.setLenght(length);
+                    product.setWidthObj(widthObj);
+                    product.setHeight(height);
+                    product.setLongitude(longitude);
+                    product.setLatitude(latitude);
+
+                    Timber.i("Product=" + product.getProductid());
+                    Timber.i("Product=" + product.getProductname());
+                    Timber.i("Product=" + product.getWeight());
+                    Timber.i("Product=" + product.getImages());
+                    Timber.i("Product=" + product.getPhone());
+                    Timber.i("Product=" + product.getPrice());
+                    Timber.i("Product=" + product.getWeb());
+                    Timber.i("Product=" + product.getTags());
+                    Timber.i("Product=" + product.getLenght());
+                    Timber.i("Product=" + product.getWidthObj());
+                    Timber.i("Product=" + product.getHeight());
+                    Timber.i("Product=" + product.getLatitude());
+                    Timber.i("Product=" + product.getLongitude());
+
+
                 }
 
 
