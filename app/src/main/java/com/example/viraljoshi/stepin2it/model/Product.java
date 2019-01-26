@@ -1,11 +1,15 @@
 
 package com.example.viraljoshi.stepin2it.model;
 
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
+public class Product implements Parcelable {
 
     @SerializedName("productId")
     @Expose
@@ -40,6 +44,8 @@ public class Product {
     @SerializedName("warehouseLocation")
     @Expose
     private WarehouseLocation warehouseLocation;
+
+
 
     public String getProductId() {
         return productId;
@@ -129,4 +135,53 @@ public class Product {
         this.warehouseLocation = warehouseLocation;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.productId);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeString(this.weight);
+        dest.writeStringList(this.images);
+        dest.writeString(this.phone);
+        dest.writeString(this.web);
+        dest.writeValue(this.price);
+        dest.writeStringList(this.tags);
+        dest.writeParcelable(this.dimensions, flags);
+        dest.writeParcelable(this.warehouseLocation, flags);
+    }
+
+    public Product() {
+    }
+
+    protected Product(Parcel in) {
+        this.productId = in.readString();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.weight = in.readString();
+        this.images = in.createStringArrayList();
+        this.phone = in.readString();
+        this.web = in.readString();
+        this.price = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.tags = in.createStringArrayList();
+        this.dimensions = in.readParcelable(Dimensions.class.getClassLoader());
+        this.warehouseLocation = in.readParcelable(WarehouseLocation.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }

@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="85dp"
-        android:text="Welcome To Users Profile" />
+        android:text="Welcome To Users Profile"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_logout"
@@ -19,7 +20,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:onClick="userlogout"
-        android:text="Logout" />
+        android:text="Logout"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_apiCall"
@@ -29,6 +31,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:onClick="userlogout"
-        android:text="Api Call Navigation" />
+        android:text="Api Call Navigation"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_product"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

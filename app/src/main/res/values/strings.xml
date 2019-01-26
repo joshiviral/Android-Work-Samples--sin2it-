@@ -2,5 +2,7 @@
     <string name="app_name">Stepin2It</string>
     <string name="user_name">admin</string>
     <string name="password">admin</string>
+    <string name="title_activity_item_display">activity_item_display</string>
+    <string name="title_activity_item_show">item_show</string>
 
 </resources>

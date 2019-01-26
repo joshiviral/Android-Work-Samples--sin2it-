@@ -1,33 +1,25 @@
-package com.example.viraljoshi.stepin2it;
+package com.example.viraljoshi.stepin2it.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 
+import com.example.viraljoshi.stepin2it.ProductDisplayActivity;
+import com.example.viraljoshi.stepin2it.R;
+import com.example.viraljoshi.stepin2it.SharedPreferenceConfig;
+import com.example.viraljoshi.stepin2it.adapter.ProductAdapter;
 import com.example.viraljoshi.stepin2it.api.APIInterface;
 import com.example.viraljoshi.stepin2it.api.ApiClient;
+import com.example.viraljoshi.stepin2it.api.CustomItemInterface;
+import com.example.viraljoshi.stepin2it.data.DbSqlLiteHelper;
 import com.example.viraljoshi.stepin2it.model.Product;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -40,8 +32,12 @@ import timber.log.Timber;
 public class DashboardActivity extends AppCompatActivity {
 
     private SharedPreferenceConfig preferenceConfig;
+
     @BindView(R.id.btn_apiCall)
     Button btn_apicall;
+
+    @BindView(R.id.rv_product)
+    public RecyclerView rvProduct;
 
     APIInterface apiInterface;
 
@@ -51,6 +47,8 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
         Timber.plant(new Timber.DebugTree());
+        rvProduct.setLayoutManager(new LinearLayoutManager(this));
+
         apiInterface = ApiClient.getClient().create(APIInterface.class);
         getProducts();
 
@@ -69,36 +67,67 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void getProducts() {
-        Call<ArrayList<Product>> call = apiInterface.getProducts();
-        call.enqueue(new Callback<ArrayList<Product>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                ArrayList<Product> productArrayList = response.body();
-                for (Product product : productArrayList) {
+        ArrayList<Product> productArrayList = DbSqlLiteHelper.getInstance(DashboardActivity.this).readProducts();
+        if (productArrayList != null && ! productArrayList.isEmpty()) {
 
-                    Timber.i("Product=" + product.getProductId());
-                    Timber.i("Product=" + product.getName());
-                    Timber.i("Product=" + product.getWeight());
-                    Timber.i("Product=" + product.getImages());
-                    Timber.i("Product=" + product.getPhone());
-                    Timber.i("Product=" + product.getPrice());
-                    Timber.i("Product=" + product.getWeb());
-                    Timber.i("Product=" + product.getTags());
-                    Timber.i("Product=" + product.getDimensions().getLength());
-                    Timber.i("Product=" + product.getDimensions().getHeight());
-                    Timber.i("Product=" + product.getDimensions().getWidth());
-                    Timber.i("Product=" + product.getWeb());
-                    Timber.i("Product=" + product.getWarehouseLocation().getLatitude());
-                    Timber.i("Product=" + product.getWarehouseLocation().getLongitude());
+            setrAdapter(productArrayList);
+        } else {
+
+
+            Call<ArrayList<Product>> call = apiInterface.getProducts();
+            call.enqueue(new Callback<ArrayList<Product>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                    final ArrayList<Product> productArrayList = response.body();
+                    setrAdapter(productArrayList);
+//                for (Product product : productArrayList) {
+//
+//                    Timber.i("Product=" + product.getProductId());
+//                    Timber.i("Product=" + product.getName());
+//                    Timber.i("Product=" + product.getWeight());
+//                    Timber.i("Product=" + product.getImages());
+//                    Timber.i("Product=" + product.getPhone());
+//                    Timber.i("Product=" + product.getPrice());
+//                    Timber.i("Product=" + product.getWeb());
+//                    Timber.i("Product=" + product.getTags());
+//                    Timber.i("Product=" + product.getDimensions().getLength());
+//                    Timber.i("Product=" + product.getDimensions().getHeight());
+//                    Timber.i("Product=" + product.getDimensions().getWidth());
+//                    Timber.i("Product=" + product.getWeb());
+//                    Timber.i("Product=" + product.getWarehouseLocation().getLatitude());
+//                    Timber.i("Product=" + product.getWarehouseLocation().getLongitude());
+//                }
+
+
+                    DbSqlLiteHelper d1 = DbSqlLiteHelper.getInstance(DashboardActivity.this);
+                    d1.insertProducts(productArrayList);
+
+
                 }
-            }
 
+
+                @Override
+                public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    public void setrAdapter(ArrayList<Product> productArrayList) {
+
+        ProductAdapter productAdapter = new ProductAdapter(DashboardActivity.this, productArrayList, new CustomItemInterface() {
             @Override
-            public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-
+            public void onItemClick(Product product, int position) {
+                Intent i = new Intent(DashboardActivity.this, ProductDisplayActivity.class);
+                i.putExtra(ProductDisplayActivity.EXTRA_PRODUCT, product);
+                startActivity(i);
             }
         });
+        rvProduct.setAdapter(productAdapter);
+
     }
+
 
     //when the logout button is pressed, user will be logged out and the user will be redirected to login activity
     public void userlogout(View view) {

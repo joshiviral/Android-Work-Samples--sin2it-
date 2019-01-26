@@ -1,17 +1,16 @@
-package com.example.viraljoshi.stepin2it;
+package com.example.viraljoshi.stepin2it.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.regex.Pattern;
+import com.example.viraljoshi.stepin2it.R;
+import com.example.viraljoshi.stepin2it.SharedPreferenceConfig;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

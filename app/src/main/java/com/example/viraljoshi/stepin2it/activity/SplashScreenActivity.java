@@ -1,10 +1,12 @@
-package com.example.viraljoshi.stepin2it;
+package com.example.viraljoshi.stepin2it.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.viraljoshi.stepin2it.R;
+import com.example.viraljoshi.stepin2it.SharedPreferenceConfig;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
