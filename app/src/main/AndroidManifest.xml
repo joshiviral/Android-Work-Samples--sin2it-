@@ -24,7 +24,7 @@
         <activity android:name=".activity.DashboardActivity" />
         <activity android:name=".activity.ApiCallActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".ProductDisplayActivity"></activity>
+        <activity android:name=".activity.ProductDisplayActivity"></activity>
     </application>
 
 </manifest>

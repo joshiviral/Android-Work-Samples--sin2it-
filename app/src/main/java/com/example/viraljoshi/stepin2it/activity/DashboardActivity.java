@@ -1,6 +1,5 @@
 package com.example.viraljoshi.stepin2it.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 
 
-import com.example.viraljoshi.stepin2it.ProductDisplayActivity;
 import com.example.viraljoshi.stepin2it.R;
 import com.example.viraljoshi.stepin2it.SharedPreferenceConfig;
 import com.example.viraljoshi.stepin2it.adapter.ProductAdapter;
@@ -63,6 +61,9 @@ public class DashboardActivity extends AppCompatActivity {
 //if the user has already logged in and terminates the activity, and if the user starts the app, it will retain users data and welcome profile will be displayed
         preferenceConfig = SharedPreferenceConfig.getInstance(getApplicationContext());
         //  new HttpPostAsyncTask().execute("http://my-json-server.typicode.com/joshiviral/StepIn2ItDemo/productData");
+
+
+
 
     }
 
